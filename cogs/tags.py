@@ -130,7 +130,8 @@ class Tags(commands.Cog):
         if not TAG: return await inter.send("This tag does not exist!", ephemeral=True)
 
         return await inter.send(
-            content=TAG["content"]
+            content=TAG["content"],
+            allowed_mentions=disnake.AllowedMentions.none
         )
 
 def setup(bot):
