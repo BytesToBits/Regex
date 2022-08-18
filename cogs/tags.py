@@ -131,7 +131,7 @@ class Tags(commands.Cog):
 
         return await inter.send(
             content=TAG["content"],
-            allowed_mentions=disnake.AllowedMentions.none
+            allowed_mentions=disnake.AllowedMentions.none()
         )
 
 def setup(bot):
