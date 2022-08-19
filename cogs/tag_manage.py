@@ -2,6 +2,7 @@ import asyncio
 from datetime import datetime
 import disnake
 from disnake.ext import commands
+from core.autocomplete import autocomplete_tag
 
 from core.db.Tags import Tag, TagDB
 
@@ -78,7 +79,8 @@ class TagManage(commands.Cog):
             disnake.Option(
                 name="name",
                 description="Name of the tag",
-                required=True
+                required=True,
+                autocomplete=True
             )
         ]
     )
@@ -96,6 +98,10 @@ class TagManage(commands.Cog):
         db.delete(inter.guild_id, name)
 
         return await inter.send("Tag deleted!", ephemeral=True)
+    
+    @tag_delete.autocomplete("name")
+    async def name_autocomp(name:str,inter:disnake.ApplicationCommandInteraction,val:str):
+        return autocomplete_tag(inter,val)
 
     @tag_manage.sub_command(
         name="edit",
@@ -104,7 +110,8 @@ class TagManage(commands.Cog):
             disnake.Option(
                 name="name",
                 description="Name of the tag",
-                required=True
+                required=True,
+                autocomplete=True
             )
         ]
     )
@@ -151,6 +158,10 @@ class TagManage(commands.Cog):
         db.edit(inter.guild_id, tag)
 
         return await modal_inter.edit_original_message("Tag edited!")
+    
+    @tag_edit.autocomplete("name")
+    async def name_autocomp(name:str,inter:disnake.ApplicationCommandInteraction,val:str):
+        return autocomplete_tag(inter,val)
 
 def setup(bot):
     bot.add_cog(TagManage(bot))
