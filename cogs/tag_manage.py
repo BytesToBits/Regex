@@ -98,10 +98,6 @@ class TagManage(commands.Cog):
         db.delete(inter.guild_id, name)
 
         return await inter.send("Tag deleted!", ephemeral=True)
-    
-    @tag_delete.autocomplete("name")
-    async def name_autocomp(name:str,inter:disnake.ApplicationCommandInteraction,val:str):
-        return autocomplete_tag(inter,val)
 
     @tag_manage.sub_command(
         name="edit",
@@ -160,6 +156,7 @@ class TagManage(commands.Cog):
         return await modal_inter.edit_original_message("Tag edited!")
     
     @tag_edit.autocomplete("name")
+    @tag_delete.autocomplete("name")
     async def name_autocomp(name:str,inter:disnake.ApplicationCommandInteraction,val:str):
         return autocomplete_tag(inter,val)
 
