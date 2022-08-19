@@ -2,6 +2,7 @@ from disnake.ext import commands
 import disnake
 
 from core.db.Tags import TagDB
+from core.autocomplete import autocomplete_tag
 
 class SearchModal(disnake.ui.Modal):
     def __init__(self, tags):
@@ -114,7 +115,8 @@ class Tags(commands.Cog):
                 name="tag_name",
                 type=disnake.OptionType.string,
                 required=True,
-                description="Name of the tag to send"
+                description="Name of the tag to send",
+                autocomplete=True
             )
         ]
     )
@@ -133,6 +135,10 @@ class Tags(commands.Cog):
             content=TAG["content"],
             allowed_mentions=disnake.AllowedMentions.none()
         )
+
+    @tag.autocomplete("tag_name")
+    async def tag_name_autocomp(name:str,inter:disnake.ApplicationCommandInteraction, val:str):
+        return autocomplete_tag(inter, val)
 
 def setup(bot):
     bot.add_cog(Tags(bot))
