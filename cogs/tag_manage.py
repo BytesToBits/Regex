@@ -35,10 +35,11 @@ class TagManage(commands.Cog):
             if not doc: return await inter.send("You do not have permission to create tags!", ephemeral=True)
 
             if doc["create"] and not inter.author.get_role(int(doc["create"])): return await inter.send("You do not have permission to create tags!", ephemeral=True)
-
-        TAG = next((i for i in doc["tags"] if i["name"] == name), None)
-
-        if TAG: return await inter.send("This tag already exists!", ephemeral=True)
+            
+        if doc:
+            TAG = next((i for i in doc["tags"] if i["name"] == name), None)
+            
+            if TAG: return await inter.send("This tag already exists!", ephemeral=True)
 
         await inter.response.send_modal(
             title="Create Tag",
