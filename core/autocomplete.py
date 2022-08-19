@@ -6,6 +6,6 @@ def autocomplete_tag(inter:disnake.ApplicationCommandInteraction, val:str):
         doc = db.get(inter.guild_id)
         
         if doc:
-            return list(filter(lambda tag: val.lower() in tag["name"].lower(), doc["tags"]))
+            return list(map(lambda k: k["name"], filter(lambda tag: val.lower() in tag["name"].lower(), doc["tags"])))
         
         return []
